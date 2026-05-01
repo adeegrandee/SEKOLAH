@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Kelulusan | SMA Labschool Untad Palu</title>
+    <style>
+        /* ================= VARIABEL & RESET ================= */
+        :root {
+            --primary: #000080;
+            --secondary: #fca311;
+            --bg-color: #f4f7f6;
+            --text-dark: #333;
+            --text-light: #666;
+            --success-color: #d4edda;
+            --success-text: #155724;
+            --danger-color: #f8d7da;
+            --danger-text: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            flex: 1;
+        }
+
+        h1, h2, h3 { color: var(--primary); }
+
+        /* ================= HALAMAN (PAGES) ================= */
+        .page { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .page.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= HEADER & SVG ================= */
+        .header-section { text-align: center; margin-bottom: 30px; }
+        .header-section svg {
+            width: 80px; height: 80px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        .header-section h1 { font-size: 28px; margin-bottom: 5px; }
+        .header-section p { color: var(--text-light); font-size: 16px; }
+
+        /* ================= GRID INFO SEKOLAH ================= */
+        .grid-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .info-card {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .info-card strong { display: block; color: var(--primary); margin-bottom: 5px; }
+
+        /* ================= PROGRAM KEAHLIAN ================= */
+        .jurusan-section { margin-bottom: 30px; }
+        .jurusan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .jurusan-card {
+            background: linear-gradient(135deg, var(--primary), #000050);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,80,0.2);
+        }
+        .jurusan-card span.icon { font-size: 32px; display: block; margin-bottom: 10px; }
+
+        /* ================= STATISTIK ================= */
+        .stats-section {
+            display: flex; justify-content: space-between;
+            background: #eef2f5; padding: 20px; border-radius: 8px; margin-bottom: 30px;
+        }
+        .stat-item { text-align: center; width: 30%; }
+        .stat-item h3 { font-size: 24px; color: var(--secondary); margin-bottom: 5px; }
+        .stat-item p { font-size: 14px; font-weight: bold; }
+
+        /* ================= INFO PENTING ================= */
+        .info-penting {
+            border-left: 4px solid var(--secondary);
+            background: #fff9ed; padding: 15px; border-radius: 0 8px 8px 0;
+            margin-bottom: 30px; font-size: 14px;
+        }
+
+        /* ================= COUNTDOWN TIMER ================= */
+        .timer-container { text-align: center; margin-bottom: 30px; }
+        .timer {
+            display: inline-flex; gap: 15px; justify-content: center;
+            margin-top: 15px;
+        }
+        .time-box {
+            background: var(--primary); color: white; padding: 15px;
+            border-radius: 8px; min-width: 70px; text-align: center;
+        }
+        .time-box span { display: block; font-size: 30px; font-weight: bold; }
+        .time-box small { font-size: 12px; letter-spacing: 1px; }
+
+        /* ================= TOMBOL ================= */
+        .btn {
+            display: inline-block; padding: 12px 24px; font-size: 16px;
+            font-weight: bold; text-align: center; text-decoration: none;
+            border-radius: 6px; border: none; cursor: pointer;
+            transition: all 0.3s; width: 100%;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover:not(:disabled) { background: #000050; }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-secondary { background: #6c757d; color: white; margin-top: 10px; }
+        .btn-secondary:hover { background: #5a6268; }
+        
+        /* ================= SAMBUTAN ================= */
+        .sambutan-content {
+            line-height: 1.8; text-align: justify; margin-bottom: 30px;
+        }
+        .signature { text-align: right; margin-top: 30px; }
+        .signature img { max-width: 150px; margin: 10px 0; }
+
+        /* ================= FORM CEK ================= */
+        .form-group { margin: 30px 0; text-align: center; }
+        input[type="text"] {
+            width: 80%; padding: 15px; font-size: 18px; border: 2px solid #ddd;
+            border-radius: 8px; text-align: center; outline: none; transition: 0.3s;
+        }
+        input[type="text"]:focus { border-color: var(--primary); }
+        .error-msg { color: #dc3545; margin-top: 10px; display: none; font-weight: bold; }
+
+        /* ================= HASIL ================= */
+        #result-box { display: none; margin-top: 30px; }
+        .result-card { padding: 30px; border-radius: 8px; text-align: center; border: 2px solid; }
+        .result-card.lulus { background: var(--success-color); border-color: #c3e6cb; color: var(--success-text); }
+        .result-card.tidak-lulus { background: var(--danger-color); border-color: #f5c6cb; color: var(--danger-text); }
+        
+        .result-table { width: 100%; text-align: left; margin: 20px 0; border-collapse: collapse; }
+        .result-table td { padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .result-table td:first-child { font-weight: bold; width: 30%; }
+
+        /* ================= FOOTER ================= */
+        footer {
+            text-align: center; padding: 20px; color: var(--text-light);
+            font-size: 14px; background: #fff; border-top: 1px solid #ddd;
+        }
+
+        /* ================= PRINT CSS (SKL) ================= */
+        @media print {
+            body { background: white; color: black; margin: 0; }
+            .container { box-shadow: none; border: 2px solid black; margin: 0; max-width: 100%; padding: 40px; }
+            .no-print, footer, .timer-container { display: none !important; }
+            .result-card { background: white !important; border: none !important; color: black !important; }
+            .print-header { display: block !important; text-align: center; border-bottom: 3px solid black; padding-bottom: 20px; margin-bottom: 20px; }
+            h2, h3 { color: black !important; }
+        }
+        .print-header { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-container">
+        <div id="page-home" class="page active">
+            <div class="header-section">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l-10-5-10 5 10 5z"/>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+                <h1>Pengumuman Kelulusan Sekolah</h1>
+                <p>Tahun Ajaran 2025/2026</p>
+            </div>
+
+            <div class="grid-info">
+                <div class="info-card"><strong>🏫 Nama Sekolah</strong> SMA Labschool Untad Palu</div>
+                <div class="info-card"><strong>📍 Alamat</strong> Jl. Soekarno Hatta (Kompleks UNTAD)</div>
+                <div class="info-card"><strong>⭐ Akreditasi</strong> A (Unggul)</div>
+                <div class="info-card"><strong>🌐 Website</strong> labschooluntad.sch.id</div>
+            </div>
+
+            <div class="jurusan-section">
+                <h3>Program Keahlian</h3>
+                <div class="jurusan-grid">
+                    <div class="jurusan-card">
+                        <span class="icon">🔬</span>
+                        <h4>M I A</h4>
+                        <p style="font-size: 12px; margin-top: 5px;">Matematika & Ilmu Alam</p>
+                    </div>
+                    <div class="jurusan-card">
+                        <span class="icon">🌍</span>
+                        <h4>I I S</h4>
+                        <p style="font-size: 12px; margin-top: 5px;">Ilmu-Ilmu Sosial</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-item">
+                    <h3>4 Mei</h3>
+                    <p>Tanggal Pengumuman</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="total-siswa">-</h3>
+                    <p>Total Peserta Ujian</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Target Lulusan</p>
+                </div>
+            </div>
+
+            <div class="info-penting">
+                <strong>📌 Informasi Penting:</strong> Kelulusan ditetapkan berdasarkan rapat dewan guru dan pemenuhan kriteria kelulusan (menyelesaikan program pembelajaran, memperoleh nilai sikap minimal baik, dan mengikuti ujian yang diselenggarakan sekolah).
+            </div>
+
+            <div class="timer-container" id="timer-box">
+                <h3 id="timer-title">Pengumuman akan dibuka dalam:</h3>
+                <div class="timer" id="countdown-timer">
+                    <div class="time-box"><span id="days">00</span><small>HARI</small></div>
+                    <div class="time-box"><span id="hours">00</span><small>JAM</small></div>
+                    <div class="time-box"><span id="minutes">00</span><small>MENIT</small></div>
+                    <div class="time-box"><span id="seconds">00</span><small>DETIK</small></div>
+                </div>
+            </div>
+
+            <button id="btn-masuk" class="btn btn-primary" disabled>PENGUMUMAN BELUM DIBUKA</button>
+        </div>
+
+
+        <div id="page-sambutan" class="page">
+            <h2>Sambutan Kepala Sekolah</h2>
+            <hr style="margin: 10px 0 20px; border:1px solid #eee;">
+            
+            <div class="sambutan-content">
+                <p>Puji syukur kita panjatkan ke hadirat Tuhan Yang Maha Esa atas segala rahmat dan karunia-Nya. Hari ini adalah hari yang bersejarah bagi siswa-siswi kelas XII SMA Labschool Untad Palu Tahun Ajaran 2025/2026.</p>
+                <br>
+                <p>Pengumuman kelulusan ini adalah puncak dari perjuangan, dedikasi, dan kerja keras kalian selama menempuh pendidikan di sekolah tercinta ini. Apapun hasil yang kalian terima, jadikanlah hal tersebut sebagai pijakan untuk melangkah ke jenjang yang lebih tinggi.</p>
+                <br>
+                <p>Bagi yang dinyatakan lulus, selamat atas pencapaiannya. Teruslah berkarya dan bawa nama baik almamater. Bagi yang belum berhasil, jangan berkecil hati. Sukses memiliki banyak jalan dan ini hanyalah bagian dari proses pembelajaran.</p>
+                
+                <div class="signature">
+                    <p>Palu, 4 Mei 2026</p>
+                    <p>Kepala Sekolah,</p>
+                    <div style="height: 80px;"></div>
+                    <p><strong>Meike Elsje Lapasi, S.Pd., M.AP</strong></p>
+                    <p>NIP. 19710508 201001 2 004</p>
+                </div>
+            </div>
+
+            <button onclick="pindahHalaman('page-cek')" class="btn btn-primary">LANJUT CEK KELULUSAN</button>
+            <button onclick="pindahHalaman('page-home')" class="btn btn-secondary">KEMBALI KE BERANDA</button>
+        </div>
+
+
+        <div id="page-cek" class="page">
+            
+            <div class="print-header">
+                <h2>SURAT KETERANGAN LULUS</h2>
+                <h3>SMA LABSCHOOL UNTAD PALU</h3>
+                <p>Tahun Ajaran 2025/2026</p>
+            </div>
+
+            <h2 class="no-print" style="text-align: center;">Cek Status Kelulusan</h2>
+            <p class="no-print" style="text-align: center; color: var(--text-light);">Silakan masukkan Nomor Induk Siswa Nasional (NISN) Anda.</p>
+            
+            <div class="form-group no-print">
+                <input type="text" id="nisn-input" placeholder="Ketik NISN lalu tekan Enter..." autocomplete="off">
+                <div id="error-msg" class="error-msg">❌ Data tidak ditemukan. Periksa kembali NISN Anda!</div>
+                <br><br>
+                <button onclick="cekKelulusan()" class="btn btn-primary" style="width: 80%;">CEK KELULUSAN</button>
+            </div>
+
+            <div id="result-box">
+                <div id="result-card" class="result-card">
+                    <h2 id="status-title" style="margin-bottom: 20px;"></h2>
+                    <table class="result-table">
+                        <tr><td>NAMA LENGKAP</td><td>: <span id="res-nama"></span></td></tr>
+                        <tr><td>NISN</td><td>: <span id="res-nisn"></span></td></tr>
+                        <tr><td>PROGRAM KEAHLIAN</td><td>: <span id="res-jurusan"></span></td></tr>
+                        <tr><td>STATUS</td><td>: <strong id="res-status" style="font-size: 18px;"></strong></td></tr>
+                    </table>
+                    <p id="pesan-tambahan" style="margin-top: 15px; font-style: italic;"></p>
+                    
+                    <div class="signature print-header" style="display: none; text-align: right; margin-top: 40px;">
+                        <p>Palu, 4 Mei 2026</p><p>Kepala Sekolah,</p>
+                        <br><br><br>
+                        <p><strong>Meike Elsje Lapasi, S.Pd., M.AP</strong></p>
+                        <p>NIP. 19710508 201001 2 004</p>
+                    </div>
+                </div>
+
+                <div class="no-print" style="margin-top: 20px;">
+                    <button id="btn-cetak" class="btn btn-primary" style="background: #28a745; margin-bottom: 10px; display: none;" onclick="window.print()">🖨️ CETAK SKL (PDF)</button>
+                    <button class="btn btn-secondary" onclick="resetForm()">CEK SISWA LAIN</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; <span id="currentYear"></span> SMA Labschool Untad Palu. All Rights Reserved.
+    </footer>
+
+    <script>
+        // 1. DATABASE CSV (COPY-PASTE DATA DARI EXCEL KE SINI)
+        // Format WAJIB: Nama,NISN,Jurusan,Status
+        // Pisahkan dengan koma. Gunakan tulisan LULUS atau TIDAK LULUS pada kolom status.
+        const dataCSV = `Nama,NISN,Jurusan,Status
+Andi Darmawan,0011223344,MIA,LULUS
+Budi Prakoso,0022334455,IIS,LULUS
+Citra Kirana,0033445566,MIA,TIDAK LULUS
+Dina Mariana,0044556677,IIS,LULUS`;
+
+        // 2. PARSING CSV MENJADI ARRAY OF OBJECTS
+        let dataSiswa = [];
+        function parseCSV() {
+            const rows = dataCSV.trim().split('\n');
+            for(let i = 1; i < rows.length; i++) {
+                const cols = rows[i].split(',');
+                if(cols.length >= 4) {
+                    dataSiswa.push({
+                        nama: cols[0].trim(),
+                        nisn: cols[1].trim(),
+                        jurusan: cols[2].trim(),
+                        status: cols[3].trim().toUpperCase()
+                    });
+                }
+            }
+            // Update total peserta di halaman depan
+            document.getElementById("total-siswa").innerText = dataSiswa.length;
+        }
+        parseCSV();
+
+        // 3. SET TAHUN COPYRIGHT REALTIME
+        document.getElementById("currentYear").innerText = new Date().getFullYear();
+
+        // 4. LOGIKA COUNTDOWN TIMER (Diset ke 1 Mei 2026 agar otomatis terbuka sesuai permintaan)
+        const targetDate = new Date("May 1, 2026 00:00:00").getTime();
+        
+        const timerInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const btnMasuk = document.getElementById("btn-masuk");
+            const timerBox = document.getElementById("countdown-timer");
+            const timerTitle = document.getElementById("timer-title");
+
+            if (distance < 0) {
+                // Waktu Habis - Buka Pengumuman
+                clearInterval(timerInterval);
+                timerBox.style.display = "none";
+                timerTitle.style.display = "none";
+                
+                btnMasuk.disabled = false;
+                btnMasuk.innerText = "MASUK KE HALAMAN PENGUMUMAN";
+                btnMasuk.onclick = () => pindahHalaman('page-sambutan');
+            } else {
+                // Hitung Mundur
+                document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            }
+        }, 1000);
+
+        // 5. FUNGSI NAVIGASI HALAMAN
+        function pindahHalaman(idHalaman) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(idHalaman).classList.add('active');
+        }
+
+        // 6. DUKUNGAN TOMBOL ENTER PADA INPUT
+        document.getElementById("nisn-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                cekKelulusan();
+            }
+        });
+
+        // 7. LOGIKA CEK KELULUSAN
+        function cekKelulusan() {
+            const inputNisn = document.getElementById("nisn-input").value.trim();
+            const errorMsg = document.getElementById("error-msg");
+            const resultBox = document.getElementById("result-box");
+            const btnCetak = document.getElementById("btn-cetak");
+            const card = document.getElementById("result-card");
+            
+            if(!inputNisn) return;
+
+            // Cari siswa di data array
+            const siswa = dataSiswa.find(s => s.nisn === inputNisn);
+
+            if (siswa) {
+                // Sembunyikan error
+                errorMsg.style.display = "none";
+                
+                // Isi data
+                document.getElementById("res-nama").innerText = siswa.nama;
+                document.getElementById("res-nisn").innerText = siswa.nisn;
+                document.getElementById("res-jurusan").innerText = siswa.jurusan;
+                document.getElementById("res-status").innerText = siswa.status;
+
+                // Cek Status (Lulus / Tidak Lulus)
+                if (siswa.status === "LULUS") {
+                    card.className = "result-card lulus";
+                    document.getElementById("status-title").innerText = "SELAMAT! ANDA DINYATAKAN LULUS";
+                    document.getElementById("pesan-tambahan").innerText = "Silakan klik tombol di bawah untuk mencetak Surat Keterangan Lulus (SKL) sebagai bukti kelulusan sementara.";
+                    btnCetak.style.display = "inline-block";
+                } else {
+                    card.className = "result-card tidak-lulus";
+                    document.getElementById("status-title").innerText = "MOHON MAAF, ANDA DINYATAKAN TIDAK LULUS";
+                    document.getElementById("pesan-tambahan").innerText = "Tetap semangat dan jangan putus asa. Kesuksesan memiliki banyak jalan, ini adalah bagian dari proses pendewasaan.";
+                    btnCetak.style.display = "none";
+                }
+
+                // Tampilkan hasil
+                resultBox.style.display = "block";
+            } else {
+                // Tampilkan error jika tidak ketemu
+                resultBox.style.display = "none";
+                errorMsg.style.display = "block";
+            }
+        }
+
+        // 8. FUNGSI RESET FORM (CEK SISWA LAIN)
+        function resetForm() {
+            document.getElementById("nisn-input").value = "";
+            document.getElementById("result-box").style.display = "none";
+            document.getElementById("error-msg").style.display = "none";
+            document.getElementById("nisn-input").focus();
+        }
+    </script>
+</body>
+</html>
